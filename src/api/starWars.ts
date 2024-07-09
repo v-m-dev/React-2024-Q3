@@ -5,6 +5,7 @@ export default async function getStarWarsCharacters() {
     });
 
     const responseData = await response.json();
+    console.log(responseData);
 
     return responseData;
   } catch (error) {
