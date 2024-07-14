@@ -1,30 +1,29 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import './Main.css';
 import getStarWarsCharacters from '../../api/starWars';
 import Character from '../../types/Character';
 
-class Main extends Component {
-  state = {
-    characters: [],
-  };
+function Main() {
+  const [characters, setCharacters] = useState<Character[]>([]);
 
-  async componentDidMount() {
-    const data = await getStarWarsCharacters();
-    const characters = data.results;
+  useEffect(() => {
+    const fetchCharacters = async () => {
+      const data = await getStarWarsCharacters();
+      setCharacters(data.results);
+    };
 
-    this.setState({ characters });
-  }
-  render() {
-    return (
-      <main className="main">
-        <ul>
-          {this.state.characters.map((character: Character) => (
-            <li key={character.name}>{character.name}</li>
-          ))}
-        </ul>
-      </main>
-    );
-  }
+    fetchCharacters();
+  }, []);
+
+  return (
+    <main className="main">
+      <ul>
+        {characters.map((character) => (
+          <li key={character.name}>{character.name}</li>
+        ))}
+      </ul>
+    </main>
+  );
 }
 
 export default Main;
